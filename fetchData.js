@@ -1,5 +1,5 @@
-import 'regenerator-runtime/runtime';
-import axios from 'axios';
+// import 'regenerator-runtime/runtime';
+// import axios from 'axios';
 
 const getCards = async () => {
   const cards = await axios.get('https://api.scryfall.com/cards/search?q=t%3Aplane+or+t%3Aphenom')

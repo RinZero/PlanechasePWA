@@ -1,7 +1,6 @@
 
-// import 'regenerator-runtime/runtime';
+//  import 'regenerator-runtime/runtime';
 // import axios from 'axios';
-
 
 // export const getCards = async () => {
 //     const cards = await axios.get('https://api.scryfall.com/cards/search?q=type%3Aplane')
@@ -32,7 +31,7 @@ const SW_VERSION = 1;
 const CACHE_NAME = `OFFLINE_VERSION_${SW_VERSION}`;
 const OFFLINE_URL = "offline.html";
 
-
+const assetPaths = ['assets/opca-1-chaotic-aether.jpg', 'assets/opca-2-interplanar-tunnel.jpg', 'assets/opca-3-morphic-tide.jpg']
 self.addEventListener("install", (event) => {
   console.log("[ServiceWorker] install event", event);
   //self.skipWaiting();
@@ -41,7 +40,7 @@ self.addEventListener("install", (event) => {
     (async () => {
       const cache = await caches.open(CACHE_NAME);
 
-      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+      await cache.addAll([OFFLINE_URL, ...assetPaths]);
     //   const deck = await getCards()
     //   console.log(deck)
     //   //await shuffleDeck(deck)
