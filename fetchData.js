@@ -74,7 +74,7 @@ const butRollDice = document.getElementById("butRollDice");
 let swRegistration = null;
 
 const cards = ['assets/opca-1-chaotic-aether.jpg', 'assets/opca-2-interplanar-tunnel.jpg', 'assets/opca-3-morphic-tide.jpg','assets/opca-4-mutual-epiphany.jpg',
-'assets/opca-5-planewide-disaster.jpg', 'assets/opca-6-reality-shaping.jpg', 'assets/opca-7-spatial-merging.jpg', 'assets/opca-8-time-distortion.jpg', 'assets/opca-9-academy-at-tolaria-west.jpg', 'assets/opca-10-the-aether-flues.jpg', 'assets/opca-11-agyrem.jpg', 'assets/assets/opca-12-akoum.jpg',
+'assets/opca-5-planewide-disaster.jpg', 'assets/opca-6-reality-shaping.jpg', 'assets/opca-7-spatial-merging.jpg', 'assets/opca-8-time-distortion.jpg', 'assets/opca-9-academy-at-tolaria-west.jpg', 'assets/opca-10-the-aether-flues.jpg', 'assets/opca-11-agyrem.jpg', 'assets/opca-12-akoum.jpg',
 'assets/opca-13-aretopolis.jpg', 'assets/opca-14-astral-arena.jpg', 'assets/opca-15-bant.jpg', 'assets/opca-16-bloodhill-bastion.jpg', 'assets/opca-17-celestine-reef.jpg','assets/opca-18-cliffside-market.jpg', 'assets/opca-19-the-dark-barony.jpg', 'assets/opca-20-edge-of-malacol.jpg', 'assets/opca-21-eloren-wilds.jpg', 'assets/opca-22-the-eon-fog.jpg',
  'assets/opca-23-feeding-grounds.jpg', 'assets/opca-24-fields-of-summer.jpg', 'assets/opca-25-the-fourth-sphere.jpg', 'assets/opca-26-furnace-layer.jpg', 'assets/opca-27-gavony.jpg', 'assets/opca-28-glen-elendra.jpg', 'assets/opca-29-glimmervoid-basin.jpg', 'assets/opca-30-goldmeadow.jpg', 'assets/opca-31-grand-ossuary.jpg', 'assets/opca-32-the-great-forest.jpg',
  'assets/opca-33-grixis.jpg','assets/opca-34-grove-of-the-dreampods.jpg', 'assets/opca-35-hedron-fields-of-agadeem.jpg', 'assets/opca-36-the-hippodrome.jpg', 'assets/opca-37-horizon-boughs.jpg','assets/opca-38-immersturm.jpg', 'assets/opca-39-isle-of-vesuva.jpg', 'assets/opca-40-izzet-steam-maze.jpg','assets/opca-41-jund.jpg','assets/opca-42-kessig.jpg','assets/opca-43-kharasha-foothills.jpg','assets/opca-44-kilnspire-district.jpg', 'assets/opca-45-krosa.jpg',
@@ -103,14 +103,14 @@ const setDiceTax = (diceTax, fromOtherTab) => {
   if(!isNaN(parseInt(diceTax.roll)))
   {
     if(parseInt(diceTax.roll)===1){
-      rollResult.innerHTML = "chaos. Trigger the plane-effect"
+      rollResult.innerHTML = "The dice rolled chaos. Trigger the plane-effect"
     }
     else if(parseInt(diceTax.roll)===6){
       setActiveCard(deck.pop())
-      rollResult.innerHTML = "planeswalk. The plane has been changed"
+      rollResult.innerHTML = "The dice rolled planeswalk. The plane has been changed"
     }
     else{
-      rollResult.innerHTML = "blank. Nothing happens"
+      rollResult.innerHTML = "The dice rolled blank. Nothing happens"
     }
   }
   if (!fromOtherTab) {
