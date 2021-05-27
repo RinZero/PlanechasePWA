@@ -66,13 +66,13 @@ self.addEventListener('push', function(event) {
 self.addEventListener("fetch",(fetchEvent) =>{
   console.log("[Service Worker] Fetch", fetchEvent.request.url);
 
-  // self.clients.matchAll().then(function (clients) {
-  //   clients.forEach(function (client) {
-  //     client.postMessage(
-  //       "Hi client " + client.id + ". You requested:" + fetchEvent.request.url
-  //     );
-  //   });
-  // });
+  self.clients.matchAll().then(function (clients) {
+    clients.forEach(function (client) {
+      client.postMessage(
+        "Hi client " + client.id + ". You requested:" + fetchEvent.request.url
+      );
+    });
+  });
 
   fetchEvent.respondWith(
     (async () => {
@@ -114,12 +114,11 @@ self.addEventListener("activate", e => {
 // });
 
 self.addEventListener('message', function(event){
-  console.log("hihihi")
   // Receive the data from the client
-  var data = event.data;
+  const data = event.data;
 
   // The unique ID of the tab
-  var clientId = event.source.id 
+  const clientId = event.source.id 
 
   // A function that handles the message
   self.syncTabState(data, clientId);

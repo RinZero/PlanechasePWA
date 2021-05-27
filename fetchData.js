@@ -146,24 +146,30 @@ if ("serviceWorker" in navigator && 'PushManager' in window) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js")
-      .then(reg => {
-        console.log("Service worker registered!", reg);
-        swRegistration = reg;
-        subscribeUser()
+      .then(function() {
+        return navigator.serviceWorker.ready;
+    })
+    .then(function(reg) {
+        console.log('Service Worker is ready', reg);
+        
 
         navigator.serviceWorker.addEventListener('message', function(event){
           console.log("test", event)
           if(event.data){
             
-            if( event.data.propery === "activeCard"&& event.data.state !== undefined){
-              setActiveCard(data.state, true)
+            if( event.data.property === "activeCard"&& event.data.state !== undefined){
+              setActiveCard(event.data.state, true)
             }
             
-            if( event.data.propery === "diceTax"&& event.data.state !== undefined){
-              setDiceTax(data.state, true)
+            if( event.data.property === "diceTax"&& event.data.state !== undefined){
+              setDiceTax(event.data.state, true)
             }
           }
+
+          
       });
+      swRegistration = reg;
+        subscribeUser()
       })
       .catch(e => {
         console.log("Error!", e);
@@ -179,7 +185,8 @@ butUnsubscribe.addEventListener("click", () => {
 });
 butRollDice.addEventListener("click", () => {
   let diceTax = getDiceTax()
-  setDiceTax(diceTax +2)
+  setDiceTax(diceTax +1)
+  setActiveCard('assets/opca-21-eloren-wilds.jpg')
 })
 butSend.addEventListener("click", function () {
   if ("serviceWorker" in navigator) {
