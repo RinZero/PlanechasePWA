@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PWA</title>
+    <title>PlanechasePWA</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
@@ -21,15 +21,30 @@
     <button id="butNewGame" type="button">
       NewGame
     </button>
-
+    <button id="butInstall" type="button">
+      Install
+    </button>
+    
       <button id="butSend" type="button">
         Send
       </button>
 
-        <button id="update" style="display:none">
+        <button id="butUpdate" style="display:none">
           Update
+        </button>
+        <img id="activeCard" src="assets/opca-12-akoum.jpg" />
+        <button id="butRollDice" type="button">
+          RollDice
+        </button>
+        <h2>DiceTax:</h2><h2 id="diceTax">0</h2>
+        <button id="butUnsubscribe" type="button">
+          Unsubscribe
+        </button>
+        <button id="nextTurn" type="button">
+          NextTurn
         </button>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" async defer></script>
     <script src="/fetchData.js" async defer></script>
+    <h3>For Push Companion: </h3><code id="subscriptionField" class="is-invisible"></code>
   </body>
 </html>
