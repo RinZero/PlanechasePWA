@@ -30,6 +30,7 @@
 const SW_VERSION = 1;
 const CACHE_NAME = `OFFLINE_VERSION_${SW_VERSION}`;
 const OFFLINE_URL = "index.html";
+const STYLES_URL="styles.css"
 
 const assetPaths = ['assets/opca-1-chaotic-aether.jpg', 'assets/opca-2-interplanar-tunnel.jpg', 'assets/opca-3-morphic-tide.jpg','assets/opca-4-mutual-epiphany.jpg',
 'assets/opca-5-planewide-disaster.jpg', 'assets/opca-6-reality-shaping.jpg', 'assets/opca-7-spatial-merging.jpg', 'assets/opca-8-time-distortion.jpg', 'assets/opca-9-academy-at-tolaria-west.jpg', 'assets/opca-10-the-aether-flues.jpg', 'assets/opca-11-agyrem.jpg', 'assets/opca-12-akoum.jpg',
@@ -39,22 +40,33 @@ const assetPaths = ['assets/opca-1-chaotic-aether.jpg', 'assets/opca-2-interplan
 'assets/opca-46-lair-of-the-ashen-idol.jpg','assets/opca-47-lethe-lake.jpg','assets/opca-48-llanowar.jpg','assets/opca-49-the-maelstrom.jpg', 'assets/opca-50-minamo.jpg', 'assets/opca-51-mirrored-depths.jpg', 'assets/opca-52-mount-keralia.jpg', 'assets/opca-53-murasa.jpg', 'assets/opca-54-naar-isle.jpg','assets/opca-55-naya.jpg','assets/opca-56-nephalia.jpg', 'assets/opca-57-norn-s-dominion.jpg', 'assets/opca-58-onakke-catacomb.jpg','assets/opca-59-orochi-colony.jpg','assets/opca-60-orzhova.jpg',
 'assets/opca-61-otaria.jpg','assets/opca-62-panopticon.jpg','assets/opca-63-pools-of-becoming.jpg','assets/opca-64-prahv.jpg','assets/opca-65-quicksilver-sea.jpg','assets/opca-66-raven-s-run.jpg','assets/opca-67-sanctum-of-serra.jpg','assets/opca-68-sea-of-sand.jpg','assets/opca-69-selesnya-loft-gardens.jpg','assets/opca-70-shiv.jpg','assets/opca-71-skybreen.jpg','assets/opca-72-sokenzan.jpg','assets/opca-73-stairs-to-infinity.jpg','assets/opca-74-stensia.jpg','assets/opca-75-stronghold-furnace.jpg','assets/opca-76-takenuma.jpg','assets/opca-77-talon-gates.jpg','assets/opca-78-tazeem.jpg','assets/opca-79-tember-city.jpg',
 'assets/opca-80-trail-of-the-mage-rings.jpg', 'assets/opca-81-truga-jungle.jpg','assets/opca-82-turri-island.jpg','assets/opca-83-undercity-reaches.jpg','assets/opca-84-velis-vel.jpg','assets/opca-85-windriddle-palaces.jpg', 'assets/opca-86-the-zephyr-maze.jpg']
+
 self.addEventListener("install", (event) => {
-  console.log("[ServiceWorker] install event", event);
-  //self.skipWaiting();
+  console.log("[ServiceWorker] install", event);
 
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
 
-      await cache.addAll([OFFLINE_URL, ...assetPaths]);
-    //   const deck = await getCards()
-    //   console.log(deck)
-    //   //await shuffleDeck(deck)
-    //   await cache.add(new Request(deck, { cache: "reload"}))
+      await cache.addAll([OFFLINE_URL,STYLES_URL, ...assetPaths]);
       console.log("Offline page cached");
     })()
   );
+
+  self.skipWaiting();
+});
+
+
+self.addEventListener("activate", (event) => {
+  console.log("SW Activate");
+  event.waitUntil(
+    (async () => {
+      if ("navigationPreload" in self.registration) {
+        await self.registration.navigationPreload.enable();
+      }
+    })()
+  );
+  self.clients.claim();
 });
 
 self.addEventListener('push', function(event) {

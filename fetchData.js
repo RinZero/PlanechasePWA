@@ -1,5 +1,3 @@
-// import 'regenerator-runtime/runtime';
-// import axios from 'axios';
 
 const getCards = async () => {
   const cards = await axios.get('https://api.scryfall.com/cards/search?q=t%3Aplane+or+t%3Aphenom')
@@ -67,9 +65,9 @@ function urlB64ToUint8Array(base64String) {
 const butNewGame = document.getElementById("butNewGame");
 const butNextTurn = document.getElementById("butNextTurn");
 const butInstall = document.getElementById("butInstall");
-const butSend = document.getElementById("butSend");
+const butPost = document.getElementById("butPost");
 const subscriptionField = document.getElementById('subscriptionField');
-const butUnsubscribe = document.getElementById("butUnsubscribe");
+const butSubscribe = document.getElementById("butSubscribe");
 const butRollDice = document.getElementById("butRollDice");
 let swRegistration = null;
 
@@ -137,11 +135,10 @@ function subscribeUser() {
   .then(function(subscription) {
     console.log('User is subscribed', subscription);
 
-    //updateSubscriptionOnServer(subscription);
-    // refresh ui and send Subscription to server
-    subscriptionField.classList.remove('is-invisible')
-    subscriptionField.textContent = JSON.stringify(subscription);
-    isSubscribed = true;
+    // Comment back in, if you want to use Push Companion
+    // subscriptionField.classList.remove('is-invisible')
+    // subscriptionField.textContent = JSON.stringify(subscription);
+    butSubscribe.innerHTML = "Unsubscribe"
 
   })
   .catch(function(err) {
@@ -160,16 +157,43 @@ const unsubscribeUser = () => {
     console.log('Error unsubscribing', error);
   })
   .then(function() {
-    updateSubscriptionOnServer(null);
-
     console.log('User is unsubscribed.');
-    isSubscribed = false;
-
-    updateBtn();
+    butSubscribe.innerHTML = "Subscribe"
   });
 }
 
+if ("serviceWorker" in navigator && 'PushManager' in window) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then(function() {
+        return navigator.serviceWorker.ready;
+    })
+    .then(function(reg) {
+        console.log('Service Worker is ready', reg);
+        
 
+        navigator.serviceWorker.addEventListener('message', function(event){
+          if(event.data){
+            
+            if( event.data.property === "activeCard"&& event.data.state !== undefined){
+              setActiveCard(event.data.state, true)
+            }
+            
+            if( event.data.property === "diceTax"&& event.data.state !== undefined){
+              setDiceTax(event.data.state, true)
+            }
+          }
+
+          
+      });
+      swRegistration = reg;
+      })
+      .catch(e => {
+        console.log("Error!", e);
+      });
+  });
+}
 
 
 let defferredPrompt;
@@ -198,46 +222,21 @@ butInstall.addEventListener("click", () => {
 });
 
 
-if ("serviceWorker" in navigator && 'PushManager' in window) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then(function() {
-        return navigator.serviceWorker.ready;
-    })
-    .then(function(reg) {
-        console.log('Service Worker is ready', reg);
-        
 
-        navigator.serviceWorker.addEventListener('message', function(event){
-          console.log("test", event)
-          if(event.data){
-            
-            if( event.data.property === "activeCard"&& event.data.state !== undefined){
-              setActiveCard(event.data.state, true)
-            }
-            
-            if( event.data.property === "diceTax"&& event.data.state !== undefined){
-              setDiceTax(event.data.state, true)
-            }
-          }
-
-          
-      });
-      swRegistration = reg;
-        subscribeUser()
-      })
-      .catch(e => {
-        console.log("Error!", e);
-      });
-  });
-}
 
 butNewGame.addEventListener("click", () => {
   askPermission()
+  const deck = shuffleDeck(cards)
+  setActiveCard(deck.pop())
 });
-butUnsubscribe.addEventListener("click", () => {
-  unsubscribeUser()
+butSubscribe.addEventListener("click", () => {
+  console.log(butSubscribe.innerHTML)
+  if(butSubscribe.innerHTML ==="Subscribe") {
+    subscribeUser()
+  }
+  else{
+    unsubscribeUser()
+  }
 });
 butRollDice.addEventListener("click", () => {
   const diceTax = {};
@@ -247,7 +246,7 @@ butRollDice.addEventListener("click", () => {
   diceTax.roll = diceRoll;
   setDiceTax(diceTax)
 })
-butSend.addEventListener("click", function () {
+butPost.addEventListener("click", function () {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.controller.postMessage({
       name: "Test",
@@ -260,6 +259,7 @@ butSend.addEventListener("click", function () {
 
 butNextTurn.addEventListener("click", ()=>{
   setDiceTax({tax: 0,roll: null})
+  rollResult.innerHTML = "The dice hasn't been rolled this turn"
 })
 
 let refreshing;
