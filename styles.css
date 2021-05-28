@@ -62,6 +62,12 @@ button
     width: 100%;
 }
 
+.pwa_options{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
 .diceTax_border{
     background-color: #d3c8cc;
     border-radius: 100px;
