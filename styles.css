@@ -1,5 +1,5 @@
 .is-invisible {
-    opacity: 0;
+    display: none;
   }
 body{
   

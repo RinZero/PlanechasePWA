@@ -183,9 +183,13 @@ const setDiceTax = (diceTax, fromOtherTab) => {
       setActiveCard(deck.pop())
       rollResult.innerHTML =
         'The dice rolled planeswalk. The plane has been changed'
-    } else {
+    } 
+    else {
       rollResult.innerHTML = 'The dice rolled blank. Nothing happens'
     }
+  }
+  if(diceTax.message){
+    rollResult.innerHTML = diceTax.message
   }
   if (!fromOtherTab) {
     stateToServiceWorker({ property: 'diceTax', state: diceTax })
@@ -240,6 +244,31 @@ const unsubscribeUser = () => {
     })
 }
 
+const updateButtonVisibilityChange = (reg) =>{
+  console.log("hiii")
+  if (reg) {
+    const butUpdate = document.getElementById("butUpdate");
+    butUpdate.classList.remove('is-invisible')
+    butUpdate.addEventListener("click", () => {
+      reg.waiting.postMessage("update");
+    })
+   
+  }
+}
+const listenForWaitingServiceWorker = (reg, callback) => {
+  console.log(reg)
+   function awaitStateChange() {
+    reg.installing.addEventListener("statechange", function () {
+      if (this.state === "installed") callback(reg);
+    });
+  }
+  if (!reg) return;
+  if (reg.waiting) return callback(reg);
+  if (reg.installing) awaitStateChange();
+  reg.addEventListener("updatefound", awaitStateChange);
+  console.log(reg)
+};
+
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
@@ -249,7 +278,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
       })
       .then(reg => {
         console.log('Service Worker is ready', reg)
-
+        listenForWaitingServiceWorker(reg, updateButtonVisibilityChange)
         navigator.serviceWorker.addEventListener('message', event => {
           if (event.data) {
             if (
@@ -269,11 +298,13 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
         })
         swRegistration = reg
       })
-      .catch((e) => {
-        console.log('Error!', e)
+      .catch(e=>{
+        console.log("Error: ", e)
       })
+      
   })
 }
+
 
 let defferredPrompt
 
@@ -303,8 +334,7 @@ butInstall.addEventListener('click', () => {
 butNewGame.addEventListener('click', () => {
   askPermission()
   const deck = shuffleDeck(cards)
-  setDiceTax({ tax: 0, roll: null })
-  rollResult.innerHTML = "The dice hasn't been rolled this game"
+  setDiceTax({ tax: 0, roll: null, message: "The dice hasn't been rolled this game" })
   setActiveCard(deck.pop())
 })
 butSubscribe.addEventListener('click', () => {
@@ -335,8 +365,7 @@ butPost.addEventListener('click', () => {
 })
 
 butNextTurn.addEventListener('click', () => {
-  setDiceTax({ tax: 0, roll: null })
-  rollResult.innerHTML = "The dice hasn't been rolled this turn"
+  setDiceTax({ tax: 0, roll: null, message: "The dice hasn't been rolled this turn" })
 })
 
 let refreshing

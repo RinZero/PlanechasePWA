@@ -133,8 +133,6 @@ self.addEventListener('push', (event) => {
 })
 
 self.addEventListener('fetch', (fetchEvent) => {
-  console.log('[Service Worker] Fetch', fetchEvent.request.url)
-
   self.clients.matchAll().then(function (clients) {
     clients.forEach(function (client) {
       client.postMessage(
@@ -177,7 +175,12 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('message', (event) => {
   const data = event.data
   const clientId = event.source.id
-  self.syncTabState(data, clientId)
+  if(data ==="update") {
+    self.skipWaiting()
+  }
+  else {
+    self.syncTabState(data, clientId)
+  }
 })
 
 self.sendTabState = (client, data) => {
