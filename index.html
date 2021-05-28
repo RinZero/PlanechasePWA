@@ -21,45 +21,50 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="content">
-    <div class="pwa_options">
-      <button id="butInstall" class="slide" type="button">
-        Install
-      </button>
-      <button id="butPost"  class="slide" type="button">
-        Post
-      </button>
+      <div class="pwa_options">
+        <button id="butInstall" class="slide" type="button">
+          Install
+        </button>
+        <button id="butPost"  class="slide" type="button">
+          Post
+        </button>
         <button id="butSubscribe"  class="up" type="button">Subscribe</button>
-        
         <button id="butUpdate"  class="up" style="display:none">
           Update
         </button>
-      <!--- <h3>For Push Companion: </h3><code id="subscriptionField" class="is-invisible"></code> -->
-    </div>
-    <h1>Planechase PWA</h1>
-    <img id="activeCard" src="assets/opca-12-akoum.jpg" />
-    <div class="game_elements">
+        <!--- <h3>For Push Companion: </h3><code id="subscriptionField" class="is-invisible"></code> -->
+      </div>
+
+      <h1>Planechase PWA</h1>
+
+      <img id="activeCard" src="assets/opca-12-akoum.jpg" />
+
+      <div class="game_elements">
+        <div class="game_controls">
+          <div class="flex">
+            <h2>DiceTax:</h2>
+            <div class="diceTax_border">
+              <h2 id="diceTax">0</h2>
+            </div>
+          </div>
+          <div id="rollResult">The dice hasn't been rolled</div>
+        </div>
+        <div class="game_controls">
+          <button id="butRollDice" class="up" type="button">
+            RollDice
+          </button>
+          <button id="butNextTurn" class="slide" type="button">
+            NextTurn
+          </button>
+        </div>
+      </div>
+
+      <button id="butNewGame" class="up" type="button">
+        NewGame
+      </button>
       
-      <div class="game_controls">
-        <div class="flex"><h2>DiceTax:</h2><div class="diceTax_border"><h2 id="diceTax">0</h2></div></div>
-        <div id="rollResult">The dice hasn't been rolled</div>
-      </div>
-      <div class="game_controls">
-        <button id="butRollDice" class="up" type="button">
-          RollDice
-        </button>
-        <button id="butNextTurn" class="slide" type="button">
-          NextTurn
-        </button>
-      </div>
-    </div>
-    <button id="butNewGame" class="up" type="button">
-      NewGame
-    </button>
-   
-    
   </div>
         
-    <script src="/fetchData.js" async defer></script>
-    
+  <script src="/fetchData.js" async defer></script>  
   </body>
 </html>
