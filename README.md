@@ -24,4 +24,4 @@ if you intend to display the Subscription or change the keys, revert the marked 
 
 ## localSetup
 run serve in the project folder.
-got to localhost:5000
+go to localhost:5000
