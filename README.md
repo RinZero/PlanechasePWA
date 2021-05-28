@@ -3,7 +3,8 @@
 __LiveSite__: https://planechase-pwa.netlify.app/
 
 This app is a helper for playing the Magic the Gathering-Formart Planechase with a shered PlanarDeck.
-PlanchaseRules: https://mtg.fandom.com/wiki/Planechase_(format)
+
+PlanechaseRules: https://mtg.fandom.com/wiki/Planechase_(format)
 
 ## Game Controlls
 
