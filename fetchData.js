@@ -227,6 +227,8 @@ butInstall.addEventListener("click", () => {
 butNewGame.addEventListener("click", () => {
   askPermission()
   const deck = shuffleDeck(cards)
+  setDiceTax({tax: 0,roll: null})
+  rollResult.innerHTML = "The dice hasn't been rolled this game"
   setActiveCard(deck.pop())
 });
 butSubscribe.addEventListener("click", () => {
